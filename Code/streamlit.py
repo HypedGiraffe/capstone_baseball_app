@@ -369,9 +369,10 @@ train, test = train_test_split(stationary_df,
 model = VAR(train)
 ts_model = model.fit(maxlags=1, 
                      ic = 'aic')   
-lag_vals = train.values[-2:]
-pre = ts_model.forecast(y=lag_vals, steps=1)
 
+#lag_vals = train.values[-2:]
+#pre = ts_model.forecast(y=lag_vals, steps=1)
+pre = ts_model.forecast(train.values, 1)
 
 #Looked at https://www.analyticsvidhya.com/blog/2021/08/vector-autoregressive-model-in-python/
 #Helped me figure out how to return data to pre-differenced
