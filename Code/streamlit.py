@@ -361,7 +361,7 @@ times_diff = []
 for i in range(0, len(col_ts)):
     curr = 0
     while interpret_dftest(adfuller(col_ts[i].dropna()))[1] > .05:
-        col_ts[i] = col_ts[i].diff()
+        col_ts[i] = col_ts[i].diff().dropna()
         curr += 1
     times_diff.append(curr)
         
@@ -382,14 +382,8 @@ model = VAR(train)
 ts_model = model.fit(maxlags=1, 
                      ic = 'aic')   
 
-#lag_vals = train.values[-2:]
-#pre = ts_model.forecast(y=lag_vals, steps=1)
 
 pre = ts_model.forecast(train.values, 1)
-
-#Looked at https://www.analyticsvidhya.com/blog/2021/08/vector-autoregressive-model-in-python/
-#Helped me figure out how to return data to pre-differenced
-
 
 
 #Finally, prints the forecasted data to the user
