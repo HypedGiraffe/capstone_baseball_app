@@ -39,7 +39,7 @@ if p_type == "Pitcher":
 
     
 #Reading in relevant data, batter or pitching career data based on user input
-df_career = pd.read_csv(f"../Data/career_{p_type.lower()}.csv")
+df_career = pd.read_csv(f"../main/Data/career_{p_type.lower()}.csv")
 
 #Intializes data frames for X and y for linear regression
 X = pd.DataFrame()
