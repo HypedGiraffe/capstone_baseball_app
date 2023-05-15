@@ -6,8 +6,19 @@
 
 Code - Here you will find every notebook used to create the final version of the baseball prediction app.
   1. - Aquiring Pitcher Data - Used to get season by season data and career aggregate data for pitchers
-  2. - Aquiring Batter Data - Used to get season by season data and career aggregate data for pitche
+  2. - Aquiring Batter Data  - Used to get season by season data and career aggregate data for batters
+  3. - EDA - Plotting and examining example variables from pitching data
+  4. - Individual Career Data - Used to aquire individual dataframes for pitchers and batters, season by season
+  5. - Streamlit - File used to run the App, carrying out modeling and forecasting
+ 
+Data - Career aggregate data for batters and pitchers, used for modeling and predicting
 
+Indvid_Data - Season by season data for indvidual pitchers and batters, used for forecasting
+
+Deliverables - An executive summary of the project, as well as a technical analysis
+
+Slides - 
+  
 ## Your Deliverables
 
 - A well-made predictive model using either structured or unstructured machine learning techniques (or other technique approved in advanced by the instructors), as well as clean, well-written code.
