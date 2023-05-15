@@ -3,4 +3,4 @@ channles:
   
 dependencies:
   - scikit-learn==0.22.2.post1
-  - statsmodels==0.14.0
+  - statsmodels
