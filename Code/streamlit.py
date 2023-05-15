@@ -75,8 +75,6 @@ preds = pipe.predict(X_train)
 metric = mean_squared_error(preds, y_train)
 r2 = pipe.score(X_val, y_val)
 
-preds_
-
 st.write(""" Some Metrics for Your Model! -
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
