@@ -361,7 +361,7 @@ times_diff = []
 for i in range(0, len(col_ts)):
     curr = 0
     while interpret_dftest(adfuller(col_ts[i].dropna()))[1] > .05:
-        col_ts[i] = col_ts[i].diff().dropna()
+        col_ts[i] = col_ts[i].diff()
         curr += 1
     times_diff.append(curr)
         
@@ -394,7 +394,6 @@ st.write("""
 st.write("""
 # Forecasts for 2023 Season!
 """)
-
 
 st.write(f"""
 {player} is predicted to have {metrics_ts[0]} = {abs(pre[0][0])} in the 2023 season
