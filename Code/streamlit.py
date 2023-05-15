@@ -288,10 +288,10 @@ st.dataframe(df_player)
 
 #Now, we want user input of which metrics to use
 if p_type == "Pitcher":
-    metrics_ts = st.sidebar.multiselect(f"Select Metrics to Forecast for {player}", ("W", "L", "G", "WAR", "ERA", "K/9", "BB", "BABIP"))
+    metrics_ts = st.sidebar.multiselect(f"Select Three Metrics to Forecast for {player}", ("W", "L", "G", "WAR", "ERA", "K/9", "BB", "BABIP"))
 
 if p_type == "Batter":
-    metrics_ts = st.sidebar.multiselect(f"Select Metrics to Forecast for {player}", ("Age", "AB", "H", "G", "WAR", "RBI", "SO", "BB", "BABIP", "GB%", "FB%"))
+    metrics_ts = st.sidebar.multiselect(f"Select Three Metrics to Forecast for {player}", ("Age", "AB", "H", "G", "WAR", "RBI", "SO", "BB", "BABIP", "GB%", "FB%"))
     
     
 #Plotting Time Series
