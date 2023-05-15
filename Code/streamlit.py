@@ -282,10 +282,7 @@ df_player.set_index('Date', inplace = True)
 st.write(f"""
 A look at {player}'s statistics by season
 """)
-st.write(f"""
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-Plots of Your Chosen Metrics for {player} over time
-""")
+
 st.dataframe(df_player)
 
 #Now, we want user input of which metrics to use
@@ -328,6 +325,19 @@ def plot_series(df, cols=None, title='Title', xlab=None, ylab=None):
     plt.yticks(fontsize=18);
 
     st.set_option('deprecation.showPyplotGlobalUse', False)
+
+    
+ 
+
+st.write("""
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+""")
+
+
+st.write(f"""
+Plots of Your Chosen Metrics for {player} over time
+""")
+
 
 #Creates a time series plot for each metric the user created
 for i in metrics_ts:
