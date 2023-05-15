@@ -275,7 +275,7 @@ if p_type == 'Batter':
  'Josh Bell'))
 
 #Reading in player data based on their input
-df_player = pd.read_csv(f"../Individ_Data/{p_type}/{player}.csv")
+df_player = pd.read_csv(f"Individ_Data/{p_type}/{player}.csv")
 df_player.set_index('Date', inplace = True)
 
 #Prints a dataframe of the players career data, season by season
