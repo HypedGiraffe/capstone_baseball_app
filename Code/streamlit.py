@@ -75,6 +75,8 @@ preds = pipe.predict(X_train)
 metric = mean_squared_error(preds, y_train)
 r2 = pipe.score(X_val, y_val)
 
+preds_
+
 st.write(""" Some Metrics for Your Model! -
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -84,7 +86,7 @@ Your model obtained a mean squared error of {metric}
 
 """)
 st.write(f"""
-Your model obtained a r square value of {r2}, how much variability is accounted for in your model!
+Your model obtained a r square value of: {r2}, how much variability is accounted for in your model!
 """)
 
 predictions = []
@@ -282,7 +284,9 @@ df_player.set_index('Date', inplace = True)
 st.write(f"""
 A look at {player}'s statistics by season
 """)
-st.write("""
+st.write(f"""
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Plots of Your Chosen Metrics for {player} over time
 """)
 st.dataframe(df_player)
 
@@ -372,6 +376,7 @@ ts_model = model.fit(maxlags=1,
 
 #lag_vals = train.values[-2:]
 #pre = ts_model.forecast(y=lag_vals, steps=1)
+
 pre = ts_model.forecast(train.values, 1)
 
 #Looked at https://www.analyticsvidhya.com/blog/2021/08/vector-autoregressive-model-in-python/
