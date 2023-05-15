@@ -14,10 +14,7 @@ from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
 #Title for application
-st.title("Baseball Prediction App")
-st.write("""
-# Forecasting Baseball Statistics With Statistical Modeling
-""")
+st.title("Baseball Modeling and Forecasting App")
 
 
 #First Question for the User, Pitcher or Batter?
@@ -27,32 +24,28 @@ p_type = st.sidebar.selectbox("Select Player Type", ("Pitcher", "Batter"))
 
 
 #Questions for the user
-#Will Provide the user with options for both variables to use in the modeling, as well as what reponse variable they are
-#interested in
+#Will Provide the user with options for both variables to use in the modeling, as well as what reponse variable they are interested in
 if p_type == "Batter":
-    metrics = st.sidebar.multiselect("Select Metrics to Predict With", ("AVG", "SLG", "Walks", "OPS"))
+    metrics = st.sidebar.multiselect("Select Metrics to Predict With", ("AVG", "SLG", "Seasons", "OPS", "Age", "WAR", "OBP", "wOBA", "BABIP", "HR", "RBI", "Contact%"))
 
 if p_type == "Pitcher":
     metrics = st.sidebar.multiselect("Select Metrics to Predict With", ("Seasons", "H", "WAR", "ERA", "K/9", "H/9", "ER", "HBP", "K-BB%", "Contact%", "FB%"))
     
 if p_type == "Batter":
-    response = st.sidebar.selectbox("Select Metric to Predict", ("HR", "Hits", "WAR"))
+    response = st.sidebar.selectbox("Select Metric to Predict", ("AVG", "SLG", "Seasons", "OPS", "Age", "WAR", "OBP", "wOBA", "BABIP", "HR", "RBI", "Contact%"))
 
 if p_type == "Pitcher":
     response = st.sidebar.selectbox("Select Metric to Predict", ("Seasons", "H", "WAR", "ERA", "K/9", "H/9", "ER", "HBP", "K-BB%", "Contact%", "FB%"))
-    
-
-#regression_type = st.sidebar.multiselect("Select Which Modeling to Use", ("Linear Regression, 
 
     
-#Reading in Career Pitching Data
+#Reading in relevant data, batter or pitching career data based on user input
 df_career = pd.read_csv(f"../Data/career_{p_type.lower()}.csv")
 
-
+#Intializes data frames for X and y for linear regression
 X = pd.DataFrame()
 y = pd.DataFrame()
 
-#Creating our X and Y for regression
+#Adding relevant columns to our X and Y for regression
 for i in metrics:
     X[i] = df_career[i]
 y[response] = df_career[response]
@@ -75,17 +68,21 @@ pipe = Pipeline(
     ]
 )
 
-                                                                
+#Fits our model, creates predictions, and finally prints a mean squared error and R^2 for the user
+#to evaluate their model
 pipe.fit(X_train, y_train)                                                                          
 preds = pipe.predict(X_train)                                                                          
 metric = mean_squared_error(preds, y_train)
 r2 = pipe.score(X_val, y_val)
 
+st.write(""" Some Metrics for Your Model! -
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+""")
 st.write(f"""
 Your model obtained a mean squared error of {metric}
 
 """)
-
 st.write(f"""
 Your model obtained a r square value of {r2}
 """)
@@ -97,13 +94,23 @@ for i in range(0, len(preds)-1):
 output_df = pd.DataFrame()
 output_df[response] = predictions
 
-
+#Out puts a data frame of predictions
 st.dataframe(output_df)
 
 
+
+st.write(f"""
+
+# Moving On To Forecasting
+""")
+
+
+###
+###
+###
 #Forecasting Component
 
-
+#Asking the user to pick which player they would like to forecast for
 if p_type == 'Pitcher':
     player = st.sidebar.selectbox("Select Player To Forecast",
 ('Justin Verlander',
@@ -267,15 +274,26 @@ if p_type == 'Batter':
  'Austin Romine',
  'Josh Bell'))
 
-
-df_player = pd.read_csv(f"../Individ_Data/{player}.csv")
+#Reading in player data based on their input
+df_player = pd.read_csv(f"../Individ_Data/{p_type}/{player}.csv")
 df_player.set_index('Date', inplace = True)
 
+#Prints a dataframe of the players career data, season by season
+st.write(f"""
+A look at {player}'s statistics by season
+""")
+st.write("""
+""")
 st.dataframe(df_player)
 
+#Now, we want user input of which metrics to use
+if p_type == "Pitcher":
+    metrics_ts = st.sidebar.multiselect(f"Select Metrics to Forecast for {player}", ("W", "L", "G", "WAR", "ERA", "K/9", "BB", "BABIP"), max_selections=3)
 
-metrics_ts = st.sidebar.multiselect(f"Select Metrics to Forecast for {player}", ("W", "L", "G", "WAR", "ERA", "K/9", "BB", "BABIP"), max_selections=3)
-
+if p_type == "Batter":
+    metrics_ts = st.sidebar.multiselect(f"Select Metrics to Forecast for {player}", ("Age", "AB", "H", "G", "WAR", "RBI", "SO", "BB", "BABIP", "GB%", "FB%"))
+    
+    
 #Plotting Time Series
 # Function called plot_series that takes in 
 # a dataframe, a list of column names to plot, the 
@@ -309,24 +327,25 @@ def plot_series(df, cols=None, title='Title', xlab=None, ylab=None):
 
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
-#st.pyplot(plot_series(df_player, cols=[response_ts], title = f"Change in {player} in {response_ts}", xlab = 'Year', ylab = response_ts))
-
+#Creates a time series plot for each metric the user created
+for i in metrics_ts:
+    st.pyplot(plot_series(df_player, cols=[i], title = f"{player}'s {i} By Year", xlab = 'Year', ylab = i))
 
 # Code written by Joseph Nelson, from GA VAR lecture
 #Tests for stationarity
-
 def interpret_dftest(dftest):
     dfoutput = pd.Series(dftest[0:2], index=['Test Statistic','p-value'])
     return dfoutput
 
-#Gets all of the interested variables for or user, into one list
+#Gets all of the interested variables for our user, into one list
 col_ts = []
 for i in metrics_ts:
     col_ts.append(df_player[i])
 
     
 times_diff = []
-#Iterates over the metric columns, and gets them stationary
+#Iterates over the metric columns, and gets them stationary, also keeps track of how many times the data
+#was differenced
 for i in range(0, len(col_ts)):
     curr = 0
     while interpret_dftest(adfuller(col_ts[i].dropna()))[1] > .05:
@@ -334,28 +353,23 @@ for i in range(0, len(col_ts)):
         curr += 1
     times_diff.append(curr)
         
-
+#Creates a data frame called stationary_df, this is the stationary version of our data
 stationary_df = pd.DataFrame()
 for i in range(0, len(col_ts)):
     stationary_df[metrics_ts[i]] = col_ts[i]
 
-    
+#Gets rid of years will nulls
 stationary_df.dropna(inplace = True)
 
-st.dataframe(stationary_df)
-
-
+#Train test splitting our data
 train, test = train_test_split(stationary_df,
                                test_size = 0.10, shuffle=False)
 
+#Fits a var model to our data, and also creates forecasted values
 model = VAR(train)
-
 ts_model = model.fit(maxlags=1, 
                      ic = 'aic')   
-
 lag_vals = train.values[-2:]
-
-
 pre = ts_model.forecast(y=lag_vals, steps=1)
 
 
@@ -364,7 +378,24 @@ pre = ts_model.forecast(y=lag_vals, steps=1)
 
 
 
+#Finally, prints the forecasted data to the user
+st.write("""
 
-st.write(pre)
+""")
+
+st.write("""
+# Forecasts for 2023 Season!
+""")
 
 
+st.write(f"""
+{player} is predicted to have {metrics_ts[0]} = {pre[0][0]} in the 2023 season
+""")
+
+st.write(f"""
+{player} is predicted to have {metrics_ts[1]} = {pre[0][1]} in the 2023 season
+""")
+
+st.write(f"""
+{player} is predicted to have {metrics_ts[2]} = {pre[0][2]} in the 2023 season
+""")

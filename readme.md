@@ -17,7 +17,12 @@ Indvid_Data - Season by season data for indvidual pitchers and batters, used for
 
 Deliverables - An executive summary of the project, as well as a technical analysis
 
-Slides - 
+Slides - Slides that were used to present the product
+
+## Useful Links
+
+Pybaseball(Where Data Was collected) - https://github.com/jldbc/pybaseball
+
   
 ## Your Deliverables
 
