@@ -389,13 +389,13 @@ st.write("""
 
 
 st.write(f"""
-{player} is predicted to have {abs(metrics_ts[0])} = {pre[0][0]} in the 2023 season
+{player} is predicted to have {metrics_ts[0]} = {abs(pre[0][0])} in the 2023 season
 """)
 
 st.write(f"""
-{player} is predicted to have {abs(metrics_ts[1])} = {pre[0][1]} in the 2023 season
+{player} is predicted to have {metrics_ts[1]} = {abs(pre[0][1])} in the 2023 season
 """)
 
 st.write(f"""
-{player} is predicted to have {abs(metrics_ts[2])} = {pre[0][2]} in the 2023 season
+{player} is predicted to have {metrics_ts[2]} = {abs(pre[0][2])} in the 2023 season
 """)
