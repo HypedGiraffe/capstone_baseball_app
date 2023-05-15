@@ -84,7 +84,7 @@ Your model obtained a mean squared error of {metric}
 
 """)
 st.write(f"""
-Your model obtained a r square value of {r2}
+Your model obtained a r square value of {r2}, how much variability is accounted for in your model!
 """)
 
 predictions = []
