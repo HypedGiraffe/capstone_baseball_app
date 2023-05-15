@@ -21,7 +21,7 @@ Code - Here you will find every notebook used to create the final version of the
  
 Data - Career aggregate data for batters and pitchers, used for modeling and predicting
 
-Indvid_Data - Season by season data for indvidual pitchers and batters, used for forecasting
+Individ_Data - Season by season data for indvidual pitchers and batters, used for forecasting
 
 Deliverables - An executive summary of the project, as well as a technical analysis
 
@@ -30,5 +30,10 @@ Slides - Slides that were used to present the product
 ## Useful Links
 
 Pybaseball(Where Data Was collected) - https://github.com/jldbc/pybaseball
+
+Created Application - https://hypedgiraffe-capstone-baseball-app-codestreamlit-xq2zea.streamlit.app/
+
+Note! - Must have metrics selected for prediction/modeling part in order to access forecasting section
+      - In addition, some players do not work for some metric combinations, I believe due to lack of data due to injury. 
 
   

@@ -87,6 +87,8 @@ st.write(f"""
 Your model obtained a r square value of: {r2}, how much variability is accounted for in your model!
 """)
 
+#Creates a list of our predicted values, even though they are generic players, gives the user 
+#an idea of how their model preformed
 predictions = []
 for i in range(0, len(preds)-1):
     predictions.append(preds[i])
@@ -329,10 +331,10 @@ def plot_series(df, cols=None, title='Title', xlab=None, ylab=None):
     
  
 
+
 st.write("""
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 """)
-
 
 st.write(f"""
 Plots of Your Chosen Metrics for {player} over time
@@ -355,9 +357,10 @@ for i in metrics_ts:
     col_ts.append(df_player[i])
 
     
-times_diff = []
+
 #Iterates over the metric columns, and gets them stationary, also keeps track of how many times the data
 #was differenced
+times_diff = []
 for i in range(0, len(col_ts)):
     curr = 0
     while interpret_dftest(adfuller(col_ts[i].dropna()))[1] > .05:
@@ -370,12 +373,15 @@ stationary_df = pd.DataFrame()
 for i in range(0, len(col_ts)):
     stationary_df[metrics_ts[i]] = col_ts[i]
 
+
 #Gets rid of years will nulls
 stationary_df.dropna(inplace = True)
+
 
 #Train test splitting our data
 train, test = train_test_split(stationary_df,
                                test_size = 0.10, shuffle=False)
+
 
 #Fits a var model to our data, and also creates forecasted values
 model = VAR(train)
@@ -383,6 +389,7 @@ ts_model = model.fit(maxlags=1,
                      ic = 'aic')   
 
 
+#Obtains our predicted values for 2023
 pre = ts_model.forecast(train.values, 1)
 
 
@@ -396,13 +403,13 @@ st.write("""
 """)
 
 st.write(f"""
-{player} is predicted to have {metrics_ts[0]} = {abs(pre[0][0])} in the 2023 season
+{player} is predicted to have {metrics_ts[0]} = {pre[0][0]} in the 2023 season
 """)
 
 st.write(f"""
-{player} is predicted to have {metrics_ts[1]} = {abs(pre[0][1])} in the 2023 season
+{player} is predicted to have {metrics_ts[1]} = {pre[0][1]} in the 2023 season
 """)
 
 st.write(f"""
-{player} is predicted to have {metrics_ts[2]} = {abs(pre[0][2])} in the 2023 season
+{player} is predicted to have {metrics_ts[2]} = {pre[0][2]} in the 2023 season
 """)
