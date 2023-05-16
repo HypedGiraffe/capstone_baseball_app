@@ -358,15 +358,10 @@ for i in metrics_ts:
 
     
 
-#Iterates over the metric columns, and gets them stationary, also keeps track of how many times the data
-#was differenced
-times_diff = []
+#Iterates over the metric columns, and gets them stationary
 for i in range(0, len(col_ts)):
-    curr = 0
     while interpret_dftest(adfuller(col_ts[i].dropna()))[1] > .05:
         col_ts[i] = col_ts[i].diff()
-        curr += 1
-    times_diff.append(curr)
         
 #Creates a data frame called stationary_df, this is the stationary version of our data
 stationary_df = pd.DataFrame()
